@@ -12,25 +12,11 @@ const tools =[
     color: "text-violet-500",
   },
   {
-    href: "/music",
-    icon: Music,
-    label: "Music Generation",
-    bgColor: "bg-emerald-500/10",
-    color: "text-emerald-500",
-  },
-  {
     href: "/image",
     icon: ImageIcon,
     label: "Image Generation",
     bgColor: "bg-pink-700/10",
     color: "text-pink-700",
-  },
-  {
-    href: "/video",
-    icon: VideoIcon,
-    label: "Video Generation",
-    bgColor: "bg-orange-700/10",
-    color: "text-orange-700",
   },
   {
     href: "/code",

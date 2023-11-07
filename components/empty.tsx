@@ -4,7 +4,6 @@ interface EmptyProps {
   label: string
 }
 
-
 export const Empty = ({label}: EmptyProps) => {
   return (
     <div className="h-tem-center full p-20 flex flex-col items-center justify-center">

@@ -17,13 +17,16 @@ import { cn } from "@/lib/utils"
 import { UserAvatar } from "@/components/use-avatar"
 import { BotAvatar } from "@/components/bot-avatar"
 import ReactMarkdown from "react-markdown";
+import { useProModal } from "@/hooks/use-pro-modal"
+import toast from "react-hot-toast"
 
 interface ChatMessage {
-  role: 'system' | 'user' | 'assistant';
+  role: 'system' | 'user' ;
   content: string;
 }
 
 const CodePage = () => {
+  const proModal = useProModal();
   const router = useRouter()
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const form = useForm<z.infer<typeof formSchema>>({
@@ -47,7 +50,11 @@ const CodePage = () => {
       setMessages((curr) => [...curr, userMessage, response.data])
       form.reset();
     }catch(error: any){
-      console.log(error)
+      if(error?.response?.status === 403){
+        proModal.open();
+      } else {
+        toast.error("Something went wrong")
+      }
     }finally{
       router.refresh()
     }

@@ -8,17 +8,19 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Heading } from '@/components/heading'
 import { Empty } from '@/components/empty'
 import { Download, ImageIcon } from 'lucide-react'
-import { amountOptions, formSchema, resolutionOptions } from './constants'
-import { Input } from "@/components/ui/input"
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
-import { Button } from "@/components/ui/button"
-import { Loader } from "@/components/loader"
-import { cn } from "@/lib/utils"
+import { amountOptions, formSchema, resolutionOptions } from './constants';
+import { Input } from "@/components/ui/input";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Loader } from "@/components/loader";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
-import { Card, CardFooter } from "@/components/ui/card"
-import Image from "next/image"
+import { Card, CardFooter } from "@/components/ui/card";
+import Image from "next/image";
+import { useProModal } from "@/hooks/use-pro-modal"
+import toast from "react-hot-toast"
 
 const ImagePage = () => {
+  const proModal = useProModal()
   const router = useRouter()
   const [images, setImages] = useState<string[]>([])
   const form = useForm<z.infer<typeof formSchema>>({
@@ -40,7 +42,11 @@ const ImagePage = () => {
       setImages(urls);
       form.reset();
     }catch(error: any){
-      console.log(error)
+      if(error?.response?.status === 403){
+        proModal.open()
+      } else{
+        toast.error("Something went wrong")
+      }
     }finally{
       router.refresh()
     }
